@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
-  "scripts": {
-    "start": "nodemon app.js"
+  "scripts": {    
+    "start": "echo 'Starting server...' && nodemon app.js && echo 'Successfully started server.js'"
   },
   "author": "",
   "license": "ISC",
