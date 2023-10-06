@@ -121,9 +121,10 @@ io.on('connection', function(socket) {
         io.to('' + data.channelid + '').emit("MEMBER_JOINED", data);
     });
 
-    socket.on("LEAVE_SESSION", (data) => {
-        io.to('' + data.channelid + '').emit("LEAVE_SESSION", data);
-    });
+    //socket.on("LEAVE_CANVAS_SESSION", (data) => {
+        //WHEN USER LEFT THE SESSION, MAKE THE CANVAS USER LEAVE TO
+       //io.to('' + data.channelid + '').emit("LEAVE_CANVAS_SESSION", data);
+    //});
 
 
     socket.on("START_SESSION", (data) => {
@@ -218,7 +219,10 @@ io.on('connection', function(socket) {
 
     /*Register connected user*/
     socket.on('REGISTER', function(user) {
-        console.log("user connected, with id " + socket.id + " " + user.username)
+
+        console.log("joined", user);
+
+        //console.log("user connected, with id " + socket.id + " " + user.username)
 
         //remove if ever there is same userid
         /*
@@ -238,12 +242,14 @@ io.on('connection', function(socket) {
 
         users.push({
             'id': socket.id,
+            'channelid': user.channelid,
             'userid': user.userid,
             'username': user.username,
             'user_image': user.user_image,
             'nickname': user.nickname,
             'status': user.status,
             'type': user.type,
+            'chat_type': user.chat_type
         });
 
 
@@ -259,13 +265,27 @@ io.on('connection', function(socket) {
 
     //Removing the socket on disconnect
     socket.on('disconnect', function() {
+
         for (var i in users) {
             if (users[i].id === socket.id) {
-                io.emit('LEAVE_SESSION', users[i]);
-                delete users[i];
+                if (users[i].channelid == null) {
+
+                    console.log("user left session",  users[i])
+                    io.emit('LEAVE_SESSION', users[i]);
+
+                } else if (users[i].chat_type == 'canvas' ) {
+
+                    console.log("user left CANVAS session",  users[i])               
+                    io.to('' + users[i].channelid + '').emit("LEAVE_CANVAS_SESSION", users[i]);
+                }                
+                
+                //delete users[i];
+                users.splice(i, 1); // Remove the user from the array
                 break;
             }
         }
+
+        
 
         users = users.filter(function(element) {
             return element !== undefined;
