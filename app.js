@@ -301,6 +301,9 @@ io.on('connection', function(socket) {
 
     // Private message handling
     socket.on('SEND_PRIVATE_MESSAGE', function(data) {
+
+        console.log("send user ", data);
+
         // Extract necessary information from the data object
         const { recipient, message } = data;
         
