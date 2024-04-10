@@ -316,30 +316,10 @@ io.on('connection', function(socket) {
 
         //io.to(data.channelid).emit("PRIVATE_MESSAGE_SENT",data);
 
-        io.to(recipientID).emit("PRIVATE_MESSAGE_SENT",data);
+        io.to(data.recipientID).emit("PRIVATE_MESSAGE_SENT",data);
     });
 
-    // Private message handling
-    socket.on('SEND_PRIVATE_MESSAGE_TEST', function(data) {
 
-        console.log("'SEND_PRIVATE_MESSAGE_TEST ", data);
-
-        // Extract necessary information from the data object
-        const { recipient, message } = data;
-        
-        // Check if the recipient is valid and online
-        const recipientSocket = io.sockets.sockets[recipient];
-
-        if (recipientSocket) {
-            // Send the private message to the recipient
-            recipientSocket.emit('PRIVATE_MESSAGE', { sender: socket.id, message });
-            // Optionally, you can also send an acknowledgment back to the sender
-            socket.emit('PRIVATE_MESSAGE_SENT', { recipient, message });
-        } else {
-            // Handle the case where the recipient is not online or does not exist
-            socket.emit('PRIVATE_MESSAGE_FAILED', { recipient, message, error: 'Recipient not found or offline' });
-        }
-    });
     
     
 });
