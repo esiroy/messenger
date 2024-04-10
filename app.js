@@ -316,7 +316,7 @@ io.on('connection', function(socket) {
 
         //io.to(data.channelid).emit("PRIVATE_MESSAGE_SENT",data);
 
-        io.broadcast.to(recipientID).emit("PRIVATE_MESSAGE_SENT",data);
+        io.to(recipientID).emit("PRIVATE_MESSAGE_SENT",data);
     });
 
     // Private message handling
