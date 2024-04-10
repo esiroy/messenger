@@ -217,6 +217,16 @@ io.on('connection', function(socket) {
         //this.handleUserPrivateMsg(data);
     });
 
+    socket.on('JOIN_CHANNEL', function(data) {
+        const { channelID } = data;
+    
+        // Join the specified channel room
+        socket.join(channelID);
+    
+        // Optionally, you can emit a confirmation back to the client
+        socket.emit('CHANNEL_JOINED', { channelID });
+    });
+    
     /*Register connected user*/
     socket.on('REGISTER', function(user) {
 
