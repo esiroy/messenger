@@ -314,8 +314,7 @@ io.on('connection', function(socket) {
 
         console.log("SEND_PRIVATE_MESSAGE", data);
 
-        //io.to(data.channelid).emit("PRIVATE_MESSAGE_SENT",data);
-        io.to('' + data.recipientID + '').emit("CALL_USER_PINGBACK", data);
+        io.to('' + data.recipientID + '').emit("PRIVATE_MESSAGE_SENT", data);
     });
 
 
