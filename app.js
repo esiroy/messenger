@@ -193,7 +193,7 @@ io.on('connection', function(socket) {
 
     socket.on("SEND_USER_MESSAGE", function(data) {
 
-        console.log("send user ", data.recipient.username);
+        console.log("SEND_USER_MESSAGE ", data.recipient.username);
 
         //io.sockets.connected[data.id].emit("PRIVATE_MESSAGE", data);
         /*
@@ -312,7 +312,15 @@ io.on('connection', function(socket) {
     // Private message handling
     socket.on('SEND_PRIVATE_MESSAGE', function(data) {
 
-        console.log("send user ", data);
+        console.log("'SEND_PRIVATE_MESSAGE ", data);
+
+        io.to(data.channelid).emit("PRIVATE_MESSAGE_SENT",data);
+    });
+
+    // Private message handling
+    socket.on('SEND_PRIVATE_MESSAGE_TEST', function(data) {
+
+        console.log("'SEND_PRIVATE_MESSAGE_TEST ", data);
 
         // Extract necessary information from the data object
         const { recipient, message } = data;
@@ -330,5 +338,6 @@ io.on('connection', function(socket) {
             socket.emit('PRIVATE_MESSAGE_FAILED', { recipient, message, error: 'Recipient not found or offline' });
         }
     });
-
+    
+    
 });
