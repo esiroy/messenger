@@ -312,7 +312,7 @@ io.on('connection', function(socket) {
     // Private message handling
     socket.on('SEND_PRIVATE_MESSAGE', function(data) {
 
-        console.log("SEND_PRIVATE_MESSAGE", data);
+        console.log("SEND_PRIVATE_MESSAGE", data.recipientID);
 
         io.to('' + data.recipientID + '').emit("PRIVATE_MESSAGE_SENT", data);
     });
