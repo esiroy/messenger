@@ -31,8 +31,15 @@ io.on('connection', function(socket) {
 
     //console.log("user connected, with id " + socket.id)
 
-    socket.on("JOIN_SESSION", (data) => {
-        io.to('' + data.channelid + '').emit("JOIN_SESSION", data);
+    socket.on('JOIN_CHANNEL', function(data) {
+        const { channelID } = data;
+    
+        // Join the specified channel room
+        socket.join(channelID);
+    
+        // Optionally, you can emit a confirmation back to the client
+        console.log("channel is now : ", channelID);
+        socket.emit('CHANNEL_JOINED', { channelID });
     });
 
     socket.on("SEND_USER_MESSAGE", function(data) {
