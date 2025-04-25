@@ -138,4 +138,12 @@ io.on('connection', function(socket) {
     });
 
 
+
+    // Private message handling
+    socket.on('send_private_lesson_info', function(data) {
+        console.log("From: ", data.from + " To: " + data.to  + ",  Schedule: " + data.scheduleID +  ", Message: " +  data.message);     
+        io.to('' + data.to + '').emit("send_private_lesson_info", data);
+    });
+    
+
 });
